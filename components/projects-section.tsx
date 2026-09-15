@@ -44,7 +44,7 @@ export function ProjectsSection() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPrev={() => setPage((p) => Math.max(0, p - 1))}
-        onNext={() => setPage((p) => p + 1)}
+        onNext={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
       />
     </section>
   );

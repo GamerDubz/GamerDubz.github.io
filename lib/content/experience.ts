@@ -39,4 +39,14 @@ export const experience: ExperienceEntry[] = [
       "Evaluate and rank AI-generated responses for accuracy, safety, and alignment, and write training examples across reasoning, coding, and creative writing.",
     ],
   },
+  {
+    role: "Student — Higher Certificate in Mobile and Web Development, Computer Science",
+    org: "Emeris",
+    location: "Durban, South Africa",
+    start: "Feb 2026",
+    end: "Present",
+    bullets: [
+      "Studying full-time alongside freelance client work and running Qroma.",
+    ],
+  },
 ];

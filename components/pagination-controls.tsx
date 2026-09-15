@@ -20,7 +20,7 @@ export function PaginationControls({
         onClick={onPrev}
         disabled={currentPage === 0}
         aria-label="Previous projects"
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line) text-(--color-ink) disabled:opacity-30"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-(--color-ink) text-(--color-bg) transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-30 disabled:hover:translate-y-0"
       >
         <ChevronLeft size={18} aria-hidden="true" />
       </button>
@@ -32,7 +32,7 @@ export function PaginationControls({
         onClick={onNext}
         disabled={currentPage === totalPages - 1}
         aria-label="Next projects"
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-(--color-line) text-(--color-ink) disabled:opacity-30"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-(--color-ink) text-(--color-bg) transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-30 disabled:hover:translate-y-0"
       >
         <ChevronRight size={18} aria-hidden="true" />
       </button>

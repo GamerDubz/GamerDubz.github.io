@@ -7,18 +7,14 @@ export function Monogram({ className }: { className?: string }) {
       role="img"
       aria-label="Ubaid Desai"
     >
+      <rect x="1.5" y="1.5" width="29" height="29" rx="7.5" stroke="currentColor" strokeWidth={1.4} />
       <path
-        d="M7 6v13a6 6 0 0 0 12 0V6"
+        d="M10 10v7a6 6 0 0 0 6 6h1a5 5 0 0 0 5-5v-1a5 5 0 0 0-5-5h-3"
         stroke="currentColor"
-        strokeWidth={2.4}
+        strokeWidth={2.2}
         strokeLinecap="round"
       />
-      <path
-        d="M17 26 27 6"
-        stroke="var(--color-accent)"
-        strokeWidth={2.4}
-        strokeLinecap="round"
-      />
+      <circle cx="22" cy="17" r="1.6" fill="var(--color-accent)" />
     </svg>
   );
 }

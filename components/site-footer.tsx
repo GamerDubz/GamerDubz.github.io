@@ -1,6 +1,8 @@
-import { Code, ExternalLink, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { identity } from "@/lib/content/identity";
 import { Reveal } from "./reveal";
+import { GithubIcon } from "./social-icons/github-icon";
+import { LinkedinIcon } from "./social-icons/linkedin-icon";
 
 export function SiteFooter() {
   return (
@@ -8,10 +10,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-6 py-16">
         <Reveal>
         <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">
-          Let&apos;s work together
+          Get in touch
         </h2>
         <p className="mt-2 max-w-xl text-(--color-ink-soft)">
-          Open to full-stack roles and freelance projects — reach out any way that&apos;s easiest.
+          Want to reach out? Pick whichever way works best for you.
         </p>
         <div className="mt-8 flex flex-wrap gap-6 text-sm font-medium text-(--color-ink)">
           <a href={`mailto:${identity.email}`} className="flex min-h-11 items-center gap-2 hover:text-(--color-accent)">
@@ -26,7 +28,7 @@ export function SiteFooter() {
             rel="noopener noreferrer"
             className="flex min-h-11 items-center gap-2 hover:text-(--color-accent)"
           >
-            <ExternalLink size={18} aria-hidden="true" /> LinkedIn
+            <LinkedinIcon className="h-[18px] w-[18px]" /> LinkedIn
           </a>
           <a
             href={identity.githubUrl}
@@ -34,7 +36,7 @@ export function SiteFooter() {
             rel="noopener noreferrer"
             className="flex min-h-11 items-center gap-2 hover:text-(--color-accent)"
           >
-            <Code size={18} aria-hidden="true" /> GitHub
+            <GithubIcon className="h-[18px] w-[18px]" /> GitHub
           </a>
         </div>
         <p className="mt-12 text-xs text-(--color-ink-faint)">

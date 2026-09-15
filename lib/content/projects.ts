@@ -9,6 +9,15 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "thefixsir",
+    name: "FixSir",
+    description:
+      "A business website for a Durban sports massage and Hijama cupping therapy practice, designed and built end to end for a real client.",
+    liveUrl: "https://www.thefixsir.co.za/",
+    repoUrl: null,
+    iconSrc: null,
+  },
+  {
     slug: "imagekit",
     name: "ImageKit",
     description:
@@ -174,7 +183,7 @@ export const projects: Project[] = [
     description:
       "A travel journey tracker that turns logged flights into a gamified 3D globe, virtual passport, and journey timeline.",
     liveUrl: "https://flight-path-kappa.vercel.app",
-    repoUrl: "https://github.com/GamerDubz/flight-path-app",
+    repoUrl: null,
     iconSrc: null,
   },
   {
@@ -183,6 +192,15 @@ export const projects: Project[] = [
     description: "Turns a flat SVG into an editable 3D model in the browser, built on Three.js.",
     liveUrl: "https://gamerdubz.github.io/svg-to-3d-converter/",
     repoUrl: "https://github.com/GamerDubz/svg-to-3d-converter",
+    iconSrc: null,
+  },
+  {
+    slug: "halaq",
+    name: "Halaq",
+    description:
+      "A Shariah-compliant stock screener that filters investments against Islamic finance principles for Muslim investors.",
+    liveUrl: "https://halaq.vercel.app/",
+    repoUrl: null,
     iconSrc: null,
   },
 ];

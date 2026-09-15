@@ -8,12 +8,12 @@ export const skillGroups: SkillGroup[] = [
   {
     title: "Web & Digital Strategy",
     skills: "React · Next.js · TypeScript · Supabase · SEO & GEO · Business Automation",
-    evidence: "Used across Yana, DoseStreaks, and most of the projects below.",
+    evidence: "The stack behind Yana, DoseStreaks, and every project below.",
   },
   {
     title: "Quality Assurance",
     skills: "App/Software Testing · Bug Reporting · Severity Assessment · Technical Documentation",
-    evidence: "Runs full CI — lint, types, tests, build — on every push and PR on DoseStreaks.",
+    evidence: "Freelance QA work — reproducing bugs and writing severity-classified reports developers can triage fast.",
   },
   {
     title: "Creative & AI Tools",

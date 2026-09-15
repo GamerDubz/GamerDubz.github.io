@@ -4,11 +4,15 @@ import type { Project } from "@/lib/content/projects";
 import { EuropeanNightsIcon } from "./project-icons/european-nights-icon";
 import { FlightPathIcon } from "./project-icons/flight-path-icon";
 import { SvgTo3dIcon } from "./project-icons/svg-to-3d-icon";
+import { ThefixsirIcon } from "./project-icons/thefixsir-icon";
+import { HalaqIcon } from "./project-icons/halaq-icon";
 
 const FALLBACK_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  thefixsir: ThefixsirIcon,
   "european-nights": EuropeanNightsIcon,
   "flight-path-app": FlightPathIcon,
   "svg-to-3d-converter": SvgTo3dIcon,
+  halaq: HalaqIcon,
 };
 
 export function ProjectCard({ project }: { project: Project }) {

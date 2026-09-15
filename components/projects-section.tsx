@@ -24,7 +24,7 @@ export function ProjectsSection() {
           {projects.length} shipped side projects and experiments — each one a real, working app.
         </p>
       </Reveal>
-      <div className="relative mt-10 overflow-hidden">
+      <div className="relative mt-10 overflow-hidden py-2">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentPage}
@@ -32,6 +32,16 @@ export function ProjectsSection() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: shouldReduceMotion ? 0 : -24 }}
             transition={pageTransition}
+            drag="x"
+            dragElastic={0.15}
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(_event, info) => {
+              if (info.offset.x < -60) {
+                setPage((p) => Math.min(p + 1, totalPages - 1));
+              } else if (info.offset.x > 60) {
+                setPage((p) => Math.max(0, p - 1));
+              }
+            }}
             className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
           >
             {pageItems.map((project) => (

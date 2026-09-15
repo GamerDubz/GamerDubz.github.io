@@ -4,6 +4,7 @@ import { experience } from "./content/experience";
 import { skillGroups } from "./content/skills";
 import { education } from "./content/education";
 import { projects } from "./content/projects";
+import { about } from "./content/about";
 
 describe("identity", () => {
   it("has every required field non-empty", () => {
@@ -43,9 +44,19 @@ describe("education", () => {
   });
 });
 
+describe("about", () => {
+  it("has a non-empty heading and at least one paragraph", () => {
+    expect(about.heading).not.toBe("");
+    expect(about.paragraphs.length).toBeGreaterThan(0);
+    for (const paragraph of about.paragraphs) {
+      expect(paragraph).not.toBe("");
+    }
+  });
+});
+
 describe("projects", () => {
-  it("has exactly 21 entries", () => {
-    expect(projects.length).toBe(21);
+  it("has exactly 23 entries", () => {
+    expect(projects.length).toBe(23);
   });
 
   it("has a unique slug per project", () => {
@@ -61,10 +72,10 @@ describe("projects", () => {
     }
   });
 
-  it("has an iconSrc of null only for the 3 projects without a copied icon", () => {
+  it("has an iconSrc of null only for the 5 projects without a copied icon", () => {
     const noIcon = projects.filter((p) => p.iconSrc === null).map((p) => p.slug);
     expect(new Set(noIcon)).toEqual(
-      new Set(["european-nights", "flight-path-app", "svg-to-3d-converter"])
+      new Set(["thefixsir", "european-nights", "flight-path-app", "svg-to-3d-converter", "halaq"])
     );
   });
 });

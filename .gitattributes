@@ -1,0 +1,8 @@
+# Prevent line-ending conversion from corrupting binary assets.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.woff binary
+*.woff2 binary

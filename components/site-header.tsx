@@ -13,6 +13,12 @@ const NAV_LINKS = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-(--color-line) bg-(--color-bg)/90 backdrop-blur">
+      <a
+        href="#top"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-(--color-ink) focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-(--color-bg)"
+      >
+        Skip to content
+      </a>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="#top" className="flex items-center gap-2 font-serif-display text-lg font-medium text-(--color-ink)">
           <Monogram className="h-8 w-8 text-(--color-ink)" />

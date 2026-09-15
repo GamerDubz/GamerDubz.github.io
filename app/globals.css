@@ -46,3 +46,7 @@ body {
   outline-offset: 2px;
   border-radius: 2px;
 }
+
+[id] {
+  scroll-margin-top: 5rem;
+}

@@ -15,10 +15,26 @@ const sora = Sora({
   weight: ["400", "500", "600", "700"],
 });
 
+const SITE_TITLE = "Ubaid Desai — Full-Stack Developer";
+const SITE_DESCRIPTION =
+  "Full-stack developer building production software end to end — privacy-first health apps, a browser game with a custom simulation engine, and a run agency.";
+
 export const metadata: Metadata = {
-  title: "Ubaid Desai — Full-Stack Developer",
-  description:
-    "Full-stack developer building production software end to end — privacy-first health apps, a browser game with a custom simulation engine, and a run agency.",
+  metadataBase: new URL("https://gamerdubz.github.io"),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "https://gamerdubz.github.io",
+    siteName: "Ubaid Desai",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

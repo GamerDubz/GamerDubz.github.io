@@ -1,7 +1,24 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { identity } from "@/lib/content/identity";
+
+const emptySubscribe = () => () => {};
+
+// useSyncExternalStore is React's own recommended replacement for the old
+// "setState inside a mount effect" hasMounted pattern: getServerSnapshot
+// returns false during SSR and during the client's first render (before
+// hydration finishes), so server and client markup are guaranteed
+// identical — no hydration mismatch — and it flips to true right after,
+// with no synchronous setState-in-effect for the linter to flag.
+function useHasMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+}
 
 const container: Variants = {
   hidden: {},
@@ -17,16 +34,52 @@ const item: Variants = {
 
 export function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
-  // When reduced motion is preferred, start already in the "show" state —
-  // initial and animate are then identical, so framer-motion renders the
-  // final state directly with no visible transition. This keeps every
-  // element as a real motion.div (no tag-swapping, no prop-shape branching)
-  // while still fully honoring the user's preference.
-  const initialState = shouldReduceMotion ? "show" : "hidden";
+  const hasMounted = useHasMounted();
+
+  // Server render and the client's first render must produce identical
+  // markup (hasMounted is false in both), or React logs a hydration
+  // mismatch. Rendering the plain, fully-visible structure until after
+  // mount also means a static export with no JavaScript ships real,
+  // visible hero content instead of an opacity:0 husk.
+  if (!hasMounted || shouldReduceMotion) {
+    return (
+      <section id="top" className="mx-auto max-w-6xl px-6 pt-20 pb-24">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--color-accent)">
+            {identity.location}
+          </p>
+        </div>
+        <div>
+          <h1 className="mt-4 max-w-3xl font-serif-display text-5xl font-medium leading-[1.05] text-(--color-ink) sm:text-6xl">
+            {identity.name}, {identity.headline.toLowerCase()}.
+          </h1>
+        </div>
+        <div>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-ink-soft)">
+            {identity.summary}
+          </p>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <a
+            href="#work"
+            className="inline-flex min-h-11 items-center rounded-full bg-(--color-accent) px-6 text-sm font-semibold text-(--color-accent-ink) transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            View my work
+          </a>
+          <a
+            href={`mailto:${identity.email}`}
+            className="inline-flex min-h-11 items-center rounded-full border border-(--color-line) px-6 text-sm font-semibold text-(--color-ink) transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            Email me
+          </a>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="top" className="mx-auto max-w-6xl px-6 pt-20 pb-24">
-      <motion.div variants={container} initial={initialState} animate="show">
+      <motion.div variants={container} initial="hidden" animate="show">
         <motion.div variants={item}>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--color-accent)">
             {identity.location}

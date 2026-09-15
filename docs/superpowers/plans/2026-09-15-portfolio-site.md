@@ -1149,7 +1149,7 @@ git commit -m "feat(brand): add personal monogram mark, favicon, and apple touch
 
 **Interfaces:**
 - Consumes: `Monogram` (Task 7), `identity` (Task 3)
-- Produces: `function SiteHeader(): JSX.Element` — used by Task 13 (`app/page.tsx`)
+- Produces: `function SiteHeader(): JSX.Element` — used by Task 15 (`app/page.tsx`)
 
 - [ ] **Step 1: Write the component**
 
@@ -1215,7 +1215,7 @@ git commit -m "feat(header): add sticky site header with nav and resume link"
 
 **Interfaces:**
 - Consumes: `identity` (Task 3)
-- Produces: `function HeroSection(): JSX.Element` — used by Task 13
+- Produces: `function HeroSection(): JSX.Element` — used by Task 15
 
 This section animates on page load (not on scroll — it's above the fold, so
 scroll-triggered reveal via `Reveal` would never fire until the user
@@ -1312,7 +1312,7 @@ git commit -m "feat(hero): add hero section"
 
 **Interfaces:**
 - Consumes: `flagshipProjects` (Task 5), `Reveal` (Task 2)
-- Produces: `function FlagshipSection(): JSX.Element` — used by Task 13
+- Produces: `function FlagshipSection(): JSX.Element` — used by Task 15
 
 `FlagshipCard` itself has a plain CSS hover-lift (already reduced-motion-safe
 via Task 2's global `@media (prefers-reduced-motion: reduce)` rule, which
@@ -1400,7 +1400,7 @@ git commit -m "feat(flagship): add shipped-work section with 3 case-study cards"
 
 **Interfaces:**
 - Consumes: `experience` (Task 3), `skillGroups` (Task 3), `Reveal` (Task 2)
-- Produces: `function ExperienceSection(): JSX.Element`, `function SkillsSection(): JSX.Element` — used by Task 13
+- Produces: `function ExperienceSection(): JSX.Element`, `function SkillsSection(): JSX.Element` — used by Task 15
 
 `<ol>` requires `<li>` as its direct children (a `<div>` there would be
 invalid HTML and break the timeline's semantics), so in
@@ -1583,7 +1583,7 @@ git commit -m "feat(projects): add project card component with live/repo links"
 
 **Interfaces:**
 - Consumes: `paginate` (Task 4), `projects` (Task 6), `ProjectCard` (Task 12), `Reveal` (Task 2)
-- Produces: `function ProjectsSection(): JSX.Element` — used by Task 14
+- Produces: `function ProjectsSection(): JSX.Element` — used by Task 15
 
 - [ ] **Step 1: Write `components/pagination-controls.tsx`**
 

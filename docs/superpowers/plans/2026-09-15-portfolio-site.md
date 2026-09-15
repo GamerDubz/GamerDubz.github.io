@@ -1645,6 +1645,14 @@ is passed explicitly (relying on the global CSS media query alone does NOT
 work here, since framer-motion's `AnimatePresence` exit/enter animations
 are driven by its own JS timing, not CSS transitions).
 
+`onNext` clamps the `page` state itself to `totalPages - 1`, rather than
+incrementing unboundedly and relying only on `paginate()`'s render-time
+clamping — a rapid double-click on Next would otherwise drive `page` past
+the last page while `currentPage` stayed pinned, and then Prev would need
+to be clicked once per unseen overshoot before anything visibly changed,
+even though it never looked disabled. Clamping at the source keeps `page`
+and `currentPage` always equal.
+
 ```tsx
 "use client";
 
@@ -1692,12 +1700,15 @@ export function ProjectsSection() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPrev={() => setPage((p) => Math.max(0, p - 1))}
-        onNext={() => setPage((p) => p + 1)}
+        onNext={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
       />
     </section>
   );
 }
 ```
+
+(This `onNext` clamp fixes a rapid-click pagination desync found during
+Task 13's review — see the explanation above the code block.)
 
 - [ ] **Step 3: Verify build**
 

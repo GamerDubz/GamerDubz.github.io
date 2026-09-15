@@ -1503,7 +1503,7 @@ git commit -m "feat(experience,skills): add experience timeline and skills secti
 
 ```tsx
 import Image from "next/image";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, Code } from "lucide-react";
 import type { Project } from "@/lib/content/projects";
 import { EuropeanNightsIcon } from "./project-icons/european-nights-icon";
 import { FlightPathIcon } from "./project-icons/flight-path-icon";
@@ -1548,7 +1548,7 @@ export function ProjectCard({ project }: { project: Project }) {
             className="inline-flex min-h-11 items-center gap-1 text-(--color-ink-soft) hover:text-(--color-accent)"
             aria-label={`${project.name} source code on GitHub`}
           >
-            <Github size={14} aria-hidden="true" /> Code
+            <Code size={14} aria-hidden="true" /> Code
           </a>
         )}
       </div>
@@ -1753,8 +1753,14 @@ export function EducationSection() {
 
 - [ ] **Step 2: Write `components/site-footer.tsx`**
 
+Note: lucide-react's installed version (1.46.0) dropped brand/logo icons
+entirely — there is no `Github` or `Linkedin` export. Task 12 already hit
+this and substituted `Code` for the GitHub link there; this task follows
+the same precedent (`Code` for GitHub) and uses `ExternalLink` for
+LinkedIn, since both links already carry a text label naming the platform.
+
 ```tsx
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { Code, ExternalLink, Mail, Phone } from "lucide-react";
 import { identity } from "@/lib/content/identity";
 import { Reveal } from "./reveal";
 
@@ -1782,7 +1788,7 @@ export function SiteFooter() {
             rel="noopener noreferrer"
             className="flex min-h-11 items-center gap-2 hover:text-(--color-accent)"
           >
-            <Linkedin size={18} aria-hidden="true" /> LinkedIn
+            <ExternalLink size={18} aria-hidden="true" /> LinkedIn
           </a>
           <a
             href={identity.githubUrl}
@@ -1790,7 +1796,7 @@ export function SiteFooter() {
             rel="noopener noreferrer"
             className="flex min-h-11 items-center gap-2 hover:text-(--color-accent)"
           >
-            <Github size={18} aria-hidden="true" /> GitHub
+            <Code size={18} aria-hidden="true" /> GitHub
           </a>
         </div>
         <p className="mt-12 text-xs text-(--color-ink-faint)">

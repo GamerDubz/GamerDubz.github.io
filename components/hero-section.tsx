@@ -54,7 +54,7 @@ function HeroButtons() {
         download
         className="inline-flex min-h-11 items-center rounded-full border border-(--color-line) px-6 text-sm font-semibold text-(--color-ink) transition-transform duration-200 hover:-translate-y-0.5"
       >
-        Résumé
+        Resume
       </a>
       <div className="ml-1 flex items-center gap-2">
         <a

@@ -3,13 +3,13 @@ export function ThefixsirIcon({ className }: { className?: string }) {
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
+      strokeWidth={2.4}
+      strokeLinecap="round"
       className={className}
       aria-hidden="true"
     >
-      <circle cx="9" cy="9" r="4.5" />
-      <circle cx="15" cy="15" r="4.5" />
+      <path d="M6 5l7 7" stroke="#1c5f78" />
+      <path d="M18 5l-12 14" stroke="#2ba7a0" />
     </svg>
   );
 }

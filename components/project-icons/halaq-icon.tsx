@@ -3,17 +3,13 @@ export function HalaqIcon({ className }: { className?: string }) {
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
+      stroke="#a9822e"
+      strokeWidth={1.7}
       className={className}
       aria-hidden="true"
     >
-      <path d="M4 18v-5M9 18V9M14 18v-6M19 18v-3" strokeLinecap="round" />
-      <path
-        d="M19 4a2.5 2.5 0 1 0 1.8 4.2A3 3 0 1 1 19 4Z"
-        fill="currentColor"
-        stroke="none"
-      />
+      <path d="M13 4.5a7.5 7.5 0 1 0 0 15 6.5 6.5 0 1 1 0-15Z" />
+      <path d="M6.5 17.5v-4M10 17.5V10M13.5 17.5v-6" strokeLinecap="round" />
     </svg>
   );
 }

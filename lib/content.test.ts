@@ -3,6 +3,7 @@ import { identity } from "./content/identity";
 import { experience } from "./content/experience";
 import { skillGroups } from "./content/skills";
 import { education } from "./content/education";
+import { projects } from "./content/projects";
 
 describe("identity", () => {
   it("has every required field non-empty", () => {
@@ -39,5 +40,31 @@ describe("skillGroups", () => {
 describe("education", () => {
   it("has at least one entry", () => {
     expect(education.length).toBeGreaterThan(0);
+  });
+});
+
+describe("projects", () => {
+  it("has exactly 21 entries", () => {
+    expect(projects.length).toBe(21);
+  });
+
+  it("has a unique slug per project", () => {
+    const slugs = projects.map((p) => p.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+  });
+
+  it("has a non-empty name, description, and liveUrl for every project", () => {
+    for (const project of projects) {
+      expect(project.name, project.slug).not.toBe("");
+      expect(project.description, project.slug).not.toBe("");
+      expect(project.liveUrl, project.slug).toMatch(/^https:\/\//);
+    }
+  });
+
+  it("has an iconSrc of null only for the 3 projects without a copied icon", () => {
+    const noIcon = projects.filter((p) => p.iconSrc === null).map((p) => p.slug);
+    expect(new Set(noIcon)).toEqual(
+      new Set(["european-nights", "flight-path-app", "svg-to-3d-converter"])
+    );
   });
 });

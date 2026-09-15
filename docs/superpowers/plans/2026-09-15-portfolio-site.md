@@ -6,7 +6,7 @@
 
 **Architecture:** A single-page Next.js App Router site (`output: "export"`), sections stacked top-to-bottom, all content driven from typed data files in `lib/content/`. No backend, no CMS, no client-side data fetching — everything is static at build time. Icons for the 18 session-built projects are copied in from their source repos at authoring time; the 3 extra projects (European Nights, Flight Path, SVG-to-3D Converter) get hand-authored inline SVG icons.
 
-**Tech Stack:** Next.js (latest) + TypeScript + Tailwind v4, `next/font/google` (Newsreader + Sora), lucide-react for icons, Vitest for the two pure-logic modules (pagination, content validation), GitHub Actions → GitHub Pages for deploy.
+**Tech Stack:** Next.js (latest) + TypeScript + Tailwind v4, `next/font/google` (Newsreader + Sora), lucide-react for icons, framer-motion for scroll-reveal and hover micro-interactions, Vitest for the two pure-logic modules (pagination, content validation), GitHub Actions → GitHub Pages for deploy.
 
 **Spec:** `docs/superpowers/specs/2026-09-15-portfolio-site-design.md`
 
@@ -19,6 +19,7 @@
 - No emoji anywhere. lucide-react only for functional icons.
 - No bare `any`. Every content shape has a named TypeScript type.
 - Accessibility: 44×44px minimum touch targets, visible `:focus-visible` state, `aria-label` on every icon-only control, `prefers-reduced-motion` respected, no accessibility regressions.
+- Motion: the site should feel dynamic, not static — every major section reveals on scroll, cards lift on hover, the projects grid animates between pages — but every single animated component MUST call framer-motion's `useReducedMotion()` and fall back to an instant, non-animated state when it returns true. No animation is exempt from this check. Nothing blocks interaction while animating (no disabled buttons during a transition, no animation gating content visibility beyond a fade-in).
 - `npm run lint` and `npm run build` must be clean (zero errors/warnings) before every commit.
 - European Nights is NOT a flagship project — it appears only in the projects grid.
 - Flagship cards (Yana, DoseStreaks, Qroma) link to their live site only — never imply a public repo.
@@ -37,6 +38,7 @@ portfolio/
     apple-icon.tsx           — generated apple touch icon
   components/
     monogram.tsx             — personal "UD" mark (also used by icon.svg source)
+    reveal.tsx                — shared scroll-reveal wrapper (framer-motion, reduced-motion aware)
     site-header.tsx
     hero-section.tsx
     flagship-section.tsx
@@ -152,15 +154,24 @@ git commit -m "feat(scaffold): initialize Next.js static-export portfolio projec
 
 ---
 
-### Task 2: Design tokens and base styles
+### Task 2: Design tokens, base styles, and the shared Reveal animation wrapper
 
 **Files:**
 - Modify: `app/globals.css`
 - Modify: `app/layout.tsx`
+- Create: `components/reveal.tsx`
 
 **Interfaces:**
 - Consumes: nothing
-- Produces: CSS custom properties every component below uses: `--color-bg`, `--color-surface`, `--color-ink`, `--color-ink-soft`, `--color-ink-faint`, `--color-accent`, `--color-accent-ink`, `--color-line`; and the `font-serif-display` Tailwind utility class (backed by the Newsreader font set via `next/font/google` in `layout.tsx` and registered as a theme token in `app/globals.css`'s `@theme` block — deliberately NOT named `font-serif`, since that's Tailwind's own built-in utility and would silently resolve to its default Georgia-style stack instead)
+- Produces: CSS custom properties every component below uses: `--color-bg`, `--color-surface`, `--color-ink`, `--color-ink-soft`, `--color-ink-faint`, `--color-accent`, `--color-accent-ink`, `--color-line`; the `font-serif-display` Tailwind utility class (backed by the Newsreader font set via `next/font/google` in `layout.tsx` and registered as a theme token in `app/globals.css`'s `@theme` block — deliberately NOT named `font-serif`, since that's Tailwind's own built-in utility and would silently resolve to its default Georgia-style stack instead); and `function Reveal({ children, delay, className }: { children: React.ReactNode; delay?: number; className?: string }): JSX.Element` — a scroll-triggered fade+slide-up wrapper every later section uses to animate its own content in, that instantly skips to its final visible state (no animation at all, not even a fade) when `useReducedMotion()` is true.
+
+- [ ] **Step 1: Install framer-motion**
+
+```bash
+npm install framer-motion
+```
+
+- [ ] **Step 2: Wire the fonts in `app/layout.tsx`**
 
 - [ ] **Step 1: Wire the fonts in `app/layout.tsx`**
 
@@ -203,7 +214,7 @@ export default function RootLayout({
 }
 ```
 
-- [ ] **Step 2: Write `app/globals.css`**
+- [ ] **Step 3: Write `app/globals.css`**
 
 ```css
 @import "tailwindcss";
@@ -256,16 +267,53 @@ body {
 }
 ```
 
-- [ ] **Step 3: Verify build**
+- [ ] **Step 4: Write `components/reveal.tsx`**
+
+Every later section wraps its content in this component instead of animating ad hoc, so the reduced-motion check lives in exactly one place:
+
+```tsx
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+import type { ReactNode } from "react";
+
+type RevealProps = {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+};
+
+export function Reveal({ children, delay = 0, className }: RevealProps) {
+  const shouldReduceMotion = useReducedMotion();
+
+  if (shouldReduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+- [ ] **Step 5: Verify build**
 
 Run: `npm run build`
 Expected: succeeds with no CSS errors.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add -A
-git commit -m "feat(design): add design tokens, fonts, and base styles"
+git commit -m "feat(design): add design tokens, fonts, base styles, and Reveal animation wrapper"
 ```
 
 ---
@@ -1135,7 +1183,7 @@ export function SiteHeader() {
         </nav>
         <a
           href={identity.resumeHref}
-          className="inline-flex min-h-11 items-center rounded-full bg-(--color-ink) px-4 text-sm font-semibold text-(--color-bg) transition-opacity hover:opacity-90"
+          className="inline-flex min-h-11 items-center rounded-full bg-(--color-ink) px-4 text-sm font-semibold text-(--color-bg) transition-[opacity,transform] duration-200 hover:-translate-y-0.5 hover:opacity-90"
           download
         >
           Résumé
@@ -1169,37 +1217,74 @@ git commit -m "feat(header): add sticky site header with nav and resume link"
 - Consumes: `identity` (Task 3)
 - Produces: `function HeroSection(): JSX.Element` — used by Task 13
 
+This section animates on page load (not on scroll — it's above the fold, so
+scroll-triggered reveal via `Reveal` would never fire until the user
+scrolled away and back). It uses framer-motion directly with a staggered
+container so the eyebrow, headline, paragraph, and buttons appear in
+sequence, gated by the same `useReducedMotion()` check as `Reveal`.
+
 - [ ] **Step 1: Write the component**
 
 ```tsx
+"use client";
+
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { identity } from "@/lib/content/identity";
 
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
 export function HeroSection() {
+  const shouldReduceMotion = useReducedMotion();
+  // When reduced motion is preferred, start already in the "show" state —
+  // initial and animate are then identical, so framer-motion renders the
+  // final state directly with no visible transition. This keeps every
+  // element as a real motion.div (no tag-swapping, no prop-shape branching)
+  // while still fully honoring the user's preference.
+  const initialState = shouldReduceMotion ? "show" : "hidden";
+
   return (
     <section id="top" className="mx-auto max-w-6xl px-6 pt-20 pb-24">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--color-accent)">
-        {identity.location}
-      </p>
-      <h1 className="mt-4 max-w-3xl font-serif-display text-5xl font-medium leading-[1.05] text-(--color-ink) sm:text-6xl">
-        {identity.name}, {identity.headline.toLowerCase()}.
-      </h1>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-ink-soft)">
-        {identity.summary}
-      </p>
-      <div className="mt-8 flex flex-wrap gap-4">
-        <a
-          href="#work"
-          className="inline-flex min-h-11 items-center rounded-full bg-(--color-accent) px-6 text-sm font-semibold text-(--color-accent-ink)"
-        >
-          View my work
-        </a>
-        <a
-          href={`mailto:${identity.email}`}
-          className="inline-flex min-h-11 items-center rounded-full border border-(--color-line) px-6 text-sm font-semibold text-(--color-ink)"
-        >
-          Email me
-        </a>
-      </div>
+      <motion.div variants={container} initial={initialState} animate="show">
+        <motion.div variants={item}>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--color-accent)">
+            {identity.location}
+          </p>
+        </motion.div>
+        <motion.div variants={item}>
+          <h1 className="mt-4 max-w-3xl font-serif-display text-5xl font-medium leading-[1.05] text-(--color-ink) sm:text-6xl">
+            {identity.name}, {identity.headline.toLowerCase()}.
+          </h1>
+        </motion.div>
+        <motion.div variants={item}>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-ink-soft)">
+            {identity.summary}
+          </p>
+        </motion.div>
+        <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
+          <a
+            href="#work"
+            className="inline-flex min-h-11 items-center rounded-full bg-(--color-accent) px-6 text-sm font-semibold text-(--color-accent-ink) transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            View my work
+          </a>
+          <a
+            href={`mailto:${identity.email}`}
+            className="inline-flex min-h-11 items-center rounded-full border border-(--color-line) px-6 text-sm font-semibold text-(--color-ink) transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            Email me
+          </a>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
@@ -1226,8 +1311,15 @@ git commit -m "feat(hero): add hero section"
 - Create: `components/flagship-section.tsx`
 
 **Interfaces:**
-- Consumes: `flagshipProjects` (Task 5)
+- Consumes: `flagshipProjects` (Task 5), `Reveal` (Task 2)
 - Produces: `function FlagshipSection(): JSX.Element` — used by Task 13
+
+`FlagshipCard` itself has a plain CSS hover-lift (already reduced-motion-safe
+via Task 2's global `@media (prefers-reduced-motion: reduce)` rule, which
+zeroes every `transition-duration` on the page — no framer-motion needed for
+a simple hover). `FlagshipSection` wraps each card in `Reveal` with a
+staggered delay so the three cards animate in one after another as the
+section scrolls into view.
 
 - [ ] **Step 1: Write `components/flagship-card.tsx`**
 
@@ -1237,7 +1329,7 @@ import type { FlagshipProject } from "@/lib/content/flagship";
 
 export function FlagshipCard({ project }: { project: FlagshipProject }) {
   return (
-    <article className="rounded-2xl border border-(--color-line) bg-(--color-surface) p-8">
+    <article className="h-full rounded-2xl border border-(--color-line) bg-(--color-surface) p-8 transition-transform duration-300 hover:-translate-y-1.5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h3 className="font-serif-display text-2xl font-medium text-(--color-ink)">{project.name}</h3>
         <span className="text-sm text-(--color-ink-faint)">{project.period}</span>
@@ -1265,6 +1357,7 @@ export function FlagshipCard({ project }: { project: FlagshipProject }) {
 ```tsx
 import { flagshipProjects } from "@/lib/content/flagship";
 import { FlagshipCard } from "./flagship-card";
+import { Reveal } from "./reveal";
 
 export function FlagshipSection() {
   return (
@@ -1274,8 +1367,10 @@ export function FlagshipSection() {
         Production software in real people&apos;s hands, not just prototypes.
       </p>
       <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {flagshipProjects.map((project) => (
-          <FlagshipCard key={project.name} project={project} />
+        {flagshipProjects.map((project, index) => (
+          <Reveal key={project.name} delay={index * 0.1} className="h-full">
+            <FlagshipCard project={project} />
+          </Reveal>
         ))}
       </div>
     </section>
@@ -1304,36 +1399,47 @@ git commit -m "feat(flagship): add shipped-work section with 3 case-study cards"
 - Create: `components/skills-section.tsx`
 
 **Interfaces:**
-- Consumes: `experience` (Task 3), `skillGroups` (Task 3)
+- Consumes: `experience` (Task 3), `skillGroups` (Task 3), `Reveal` (Task 2)
 - Produces: `function ExperienceSection(): JSX.Element`, `function SkillsSection(): JSX.Element` — used by Task 13
+
+`<ol>` requires `<li>` as its direct children (a `<div>` there would be
+invalid HTML and break the timeline's semantics), so in
+`ExperienceSection` the `<li>` itself is NOT the animated element — only
+its inner content block is wrapped in `Reveal`, with the decorative dot
+staying a direct, unanimated child of the `<li>`. `SkillsSection`'s cards
+have no such constraint, so each one is wrapped in `Reveal` directly, same
+pattern as the flagship cards.
 
 - [ ] **Step 1: Write `components/experience-section.tsx`**
 
 ```tsx
 import { experience } from "@/lib/content/experience";
+import { Reveal } from "./reveal";
 
 export function ExperienceSection() {
   return (
     <section id="experience" className="mx-auto max-w-6xl px-6 py-20">
       <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Experience</h2>
       <ol className="mt-10 space-y-10 border-l border-(--color-line) pl-8">
-        {experience.map((entry) => (
+        {experience.map((entry, index) => (
           <li key={entry.role} className="relative">
             <span className="absolute -left-[calc(2rem+5px)] top-1.5 h-2.5 w-2.5 rounded-full bg-(--color-accent)" />
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="text-lg font-semibold text-(--color-ink)">{entry.role}</h3>
-              <span className="text-sm text-(--color-ink-faint)">
-                {entry.start} – {entry.end}
-              </span>
-            </div>
-            <p className="text-sm text-(--color-ink-soft)">
-              {entry.org} · {entry.location}
-            </p>
-            <ul className="mt-3 space-y-1.5 text-base text-(--color-ink-soft)">
-              {entry.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
+            <Reveal delay={index * 0.1}>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="text-lg font-semibold text-(--color-ink)">{entry.role}</h3>
+                <span className="text-sm text-(--color-ink-faint)">
+                  {entry.start} – {entry.end}
+                </span>
+              </div>
+              <p className="text-sm text-(--color-ink-soft)">
+                {entry.org} · {entry.location}
+              </p>
+              <ul className="mt-3 space-y-1.5 text-base text-(--color-ink-soft)">
+                {entry.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </Reveal>
           </li>
         ))}
       </ol>
@@ -1346,20 +1452,23 @@ export function ExperienceSection() {
 
 ```tsx
 import { skillGroups } from "@/lib/content/skills";
+import { Reveal } from "./reveal";
 
 export function SkillsSection() {
   return (
     <section id="skills" className="mx-auto max-w-6xl px-6 py-20">
       <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Skills</h2>
       <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {skillGroups.map((group) => (
-          <div key={group.title} className="rounded-2xl border border-(--color-line) bg-(--color-surface) p-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-(--color-accent)">
-              {group.title}
-            </h3>
-            <p className="mt-3 text-base text-(--color-ink)">{group.skills}</p>
-            <p className="mt-3 text-sm text-(--color-ink-faint)">{group.evidence}</p>
-          </div>
+        {skillGroups.map((group, index) => (
+          <Reveal key={group.title} delay={index * 0.1} className="h-full">
+            <div className="h-full rounded-2xl border border-(--color-line) bg-(--color-surface) p-6 transition-transform duration-300 hover:-translate-y-1.5">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-(--color-accent)">
+                {group.title}
+              </h3>
+              <p className="mt-3 text-base text-(--color-ink)">{group.skills}</p>
+              <p className="mt-3 text-sm text-(--color-ink-faint)">{group.evidence}</p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -1410,7 +1519,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const FallbackIcon = FALLBACK_ICONS[project.slug];
 
   return (
-    <article className="flex flex-col rounded-xl border border-(--color-line) bg-(--color-surface) p-5">
+    <article className="flex h-full flex-col rounded-xl border border-(--color-line) bg-(--color-surface) p-5 transition-transform duration-300 hover:-translate-y-1">
       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--color-bg) text-(--color-ink)">
         {project.iconSrc ? (
           <Image src={project.iconSrc} alt="" width={22} height={22} aria-hidden="true" />
@@ -1473,7 +1582,7 @@ git commit -m "feat(projects): add project card component with live/repo links"
 - Create: `components/projects-section.tsx`
 
 **Interfaces:**
-- Consumes: `paginate` (Task 4), `projects` (Task 6), `ProjectCard` (Task 12)
+- Consumes: `paginate` (Task 4), `projects` (Task 6), `ProjectCard` (Task 12), `Reveal` (Task 2)
 - Produces: `function ProjectsSection(): JSX.Element` — used by Task 14
 
 - [ ] **Step 1: Write `components/pagination-controls.tsx`**
@@ -1526,31 +1635,58 @@ export function PaginationControls({
 
 Fixed page size of 10 (5×2 desktop grid) for every viewport — the grid reflows to fewer columns on narrower screens via CSS alone (`grid-cols-2 sm:grid-cols-3 lg:grid-cols-5`), so the same 10 items per page just wrap into more rows on mobile instead of changing how many load per page. This keeps the pagination logic single-source-of-truth and avoids a second, viewport-dependent page-size path.
 
+Changing pages animates as a crossfade + slight horizontal slide between
+the outgoing and incoming grid via `AnimatePresence`, keyed on the current
+page number so framer-motion treats each page as a distinct element to
+transition between. Under reduced motion, `AnimatePresence` still swaps
+the content but every transform/opacity transition collapses to 0 duration
+because `transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3 }}`
+is passed explicitly (relying on the global CSS media query alone does NOT
+work here, since framer-motion's `AnimatePresence` exit/enter animations
+are driven by its own JS timing, not CSS transitions).
+
 ```tsx
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { projects } from "@/lib/content/projects";
 import { paginate } from "@/lib/pagination";
 import { ProjectCard } from "./project-card";
 import { PaginationControls } from "./pagination-controls";
+import { Reveal } from "./reveal";
 
 const PAGE_SIZE = 10;
 
 export function ProjectsSection() {
   const [page, setPage] = useState(0);
   const { pageItems, totalPages, currentPage } = paginate(projects, PAGE_SIZE, page);
+  const shouldReduceMotion = useReducedMotion();
+  const pageTransition = { duration: shouldReduceMotion ? 0 : 0.3, ease: "easeOut" as const };
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Projects</h2>
-      <p className="mt-2 max-w-2xl text-(--color-ink-soft)">
-        {projects.length} shipped side projects and experiments — each one a real, working app.
-      </p>
-      <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        {pageItems.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
+      <Reveal>
+        <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Projects</h2>
+        <p className="mt-2 max-w-2xl text-(--color-ink-soft)">
+          {projects.length} shipped side projects and experiments — each one a real, working app.
+        </p>
+      </Reveal>
+      <div className="relative mt-10 overflow-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: shouldReduceMotion ? 0 : -24 }}
+            transition={pageTransition}
+            className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
+          >
+            {pageItems.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
       <PaginationControls
         currentPage={currentPage}
@@ -1584,29 +1720,32 @@ git commit -m "feat(projects): add paginated projects grid section"
 - Create: `components/site-footer.tsx`
 
 **Interfaces:**
-- Consumes: `education` (Task 3), `identity` (Task 3)
+- Consumes: `education` (Task 3), `identity` (Task 3), `Reveal` (Task 2)
 - Produces: `function EducationSection(): JSX.Element`, `function SiteFooter(): JSX.Element` — used by Task 15
 
 - [ ] **Step 1: Write `components/education-section.tsx`**
 
 ```tsx
 import { education } from "@/lib/content/education";
+import { Reveal } from "./reveal";
 
 export function EducationSection() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Education</h2>
-      <ul className="mt-8 space-y-4">
-        {education.map((entry) => (
-          <li key={entry.credential} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-(--color-line) pb-4">
-            <div>
-              <p className="font-medium text-(--color-ink)">{entry.credential}</p>
-              <p className="text-sm text-(--color-ink-soft)">{entry.institution}</p>
-            </div>
-            <span className="text-sm text-(--color-ink-faint)">{entry.period}</span>
-          </li>
-        ))}
-      </ul>
+      <Reveal>
+        <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Education</h2>
+        <ul className="mt-8 space-y-4">
+          {education.map((entry) => (
+            <li key={entry.credential} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-(--color-line) pb-4">
+              <div>
+                <p className="font-medium text-(--color-ink)">{entry.credential}</p>
+                <p className="text-sm text-(--color-ink-soft)">{entry.institution}</p>
+              </div>
+              <span className="text-sm text-(--color-ink-faint)">{entry.period}</span>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
     </section>
   );
 }
@@ -1617,11 +1756,13 @@ export function EducationSection() {
 ```tsx
 import { Github, Linkedin, Mail, Phone } from "lucide-react";
 import { identity } from "@/lib/content/identity";
+import { Reveal } from "./reveal";
 
 export function SiteFooter() {
   return (
     <footer id="contact" className="border-t border-(--color-line) bg-(--color-surface)">
       <div className="mx-auto max-w-6xl px-6 py-16">
+        <Reveal>
         <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">
           Let&apos;s work together
         </h2>
@@ -1655,6 +1796,7 @@ export function SiteFooter() {
         <p className="mt-12 text-xs text-(--color-ink-faint)">
           © {new Date().getFullYear()} {identity.name}
         </p>
+        </Reveal>
       </div>
     </footer>
   );

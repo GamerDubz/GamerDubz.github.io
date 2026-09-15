@@ -160,7 +160,7 @@ git commit -m "feat(scaffold): initialize Next.js static-export portfolio projec
 
 **Interfaces:**
 - Consumes: nothing
-- Produces: CSS custom properties every component below uses: `--color-bg`, `--color-surface`, `--color-ink`, `--color-ink-soft`, `--color-ink-faint`, `--color-accent`, `--color-accent-ink`, `--color-line`; font variables `--font-serif`, `--font-sans` (set via `next/font/google` in `layout.tsx`, consumed as Tailwind `font-serif`/`font-sans` utilities configured in `app/globals.css`'s `@theme` block)
+- Produces: CSS custom properties every component below uses: `--color-bg`, `--color-surface`, `--color-ink`, `--color-ink-soft`, `--color-ink-faint`, `--color-accent`, `--color-accent-ink`, `--color-line`; and the `font-serif-display` Tailwind utility class (backed by the Newsreader font set via `next/font/google` in `layout.tsx` and registered as a theme token in `app/globals.css`'s `@theme` block — deliberately NOT named `font-serif`, since that's Tailwind's own built-in utility and would silently resolve to its default Georgia-style stack instead)
 
 - [ ] **Step 1: Wire the fonts in `app/layout.tsx`**
 
@@ -1122,7 +1122,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-(--color-line) bg-(--color-bg)/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="#top" className="flex items-center gap-2 font-serif text-lg font-medium text-(--color-ink)">
+        <Link href="#top" className="flex items-center gap-2 font-serif-display text-lg font-medium text-(--color-ink)">
           <Monogram className="h-8 w-8 text-(--color-ink)" />
           {identity.name}
         </Link>
@@ -1180,7 +1180,7 @@ export function HeroSection() {
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-(--color-accent)">
         {identity.location}
       </p>
-      <h1 className="mt-4 max-w-3xl font-serif text-5xl font-medium leading-[1.05] text-(--color-ink) sm:text-6xl">
+      <h1 className="mt-4 max-w-3xl font-serif-display text-5xl font-medium leading-[1.05] text-(--color-ink) sm:text-6xl">
         {identity.name}, {identity.headline.toLowerCase()}.
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-ink-soft)">
@@ -1239,7 +1239,7 @@ export function FlagshipCard({ project }: { project: FlagshipProject }) {
   return (
     <article className="rounded-2xl border border-(--color-line) bg-(--color-surface) p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="font-serif text-2xl font-medium text-(--color-ink)">{project.name}</h3>
+        <h3 className="font-serif-display text-2xl font-medium text-(--color-ink)">{project.name}</h3>
         <span className="text-sm text-(--color-ink-faint)">{project.period}</span>
       </div>
       <p className="mt-1 text-sm font-medium text-(--color-accent)">{project.role}</p>
@@ -1269,7 +1269,7 @@ import { FlagshipCard } from "./flagship-card";
 export function FlagshipSection() {
   return (
     <section id="work" className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif text-3xl font-medium text-(--color-ink)">Shipped work</h2>
+      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Shipped work</h2>
       <p className="mt-2 max-w-2xl text-(--color-ink-soft)">
         Production software in real people&apos;s hands, not just prototypes.
       </p>
@@ -1315,7 +1315,7 @@ import { experience } from "@/lib/content/experience";
 export function ExperienceSection() {
   return (
     <section id="experience" className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif text-3xl font-medium text-(--color-ink)">Experience</h2>
+      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Experience</h2>
       <ol className="mt-10 space-y-10 border-l border-(--color-line) pl-8">
         {experience.map((entry) => (
           <li key={entry.role} className="relative">
@@ -1350,7 +1350,7 @@ import { skillGroups } from "@/lib/content/skills";
 export function SkillsSection() {
   return (
     <section id="skills" className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif text-3xl font-medium text-(--color-ink)">Skills</h2>
+      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Skills</h2>
       <div className="mt-10 grid gap-6 md:grid-cols-3">
         {skillGroups.map((group) => (
           <div key={group.title} className="rounded-2xl border border-(--color-line) bg-(--color-surface) p-6">
@@ -1543,7 +1543,7 @@ export function ProjectsSection() {
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif text-3xl font-medium text-(--color-ink)">Projects</h2>
+      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Projects</h2>
       <p className="mt-2 max-w-2xl text-(--color-ink-soft)">
         {projects.length} shipped side projects and experiments — each one a real, working app.
       </p>
@@ -1595,7 +1595,7 @@ import { education } from "@/lib/content/education";
 export function EducationSection() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
-      <h2 className="font-serif text-3xl font-medium text-(--color-ink)">Education</h2>
+      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Education</h2>
       <ul className="mt-8 space-y-4">
         {education.map((entry) => (
           <li key={entry.credential} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-(--color-line) pb-4">
@@ -1622,7 +1622,7 @@ export function SiteFooter() {
   return (
     <footer id="contact" className="border-t border-(--color-line) bg-(--color-surface)">
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="font-serif text-3xl font-medium text-(--color-ink)">
+        <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">
           Let&apos;s work together
         </h2>
         <p className="mt-2 max-w-xl text-(--color-ink-soft)">

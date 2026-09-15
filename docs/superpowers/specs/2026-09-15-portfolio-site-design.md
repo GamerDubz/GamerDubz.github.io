@@ -48,8 +48,8 @@ not dilute the headline.
   health apps live in two countries, a browser game with a from-scratch
   simulation engine, and an agency he founded and runs.
 
-### Flagship work (3 case-study cards, NOT 4 — European Nights excluded per
-explicit instruction, not shown anywhere on the site)
+### Flagship work (3 case-study cards — European Nights is NOT one of them,
+it lives in the projects grid below instead)
 
 Each card describes the project holistically — what it is, who it's for,
 what it does for them — with technical details folded in as supporting
@@ -85,46 +85,61 @@ Grouped by category (Web & Digital Strategy / Quality Assurance /
 Creative & AI Tools, per the resume's own grouping), but each skill or
 group links back to evidence already on the page — e.g. "React · Next.js ·
 TypeScript · Supabase" annotated with "used across Yana, DoseStreaks, and
-14 of the projects below" — rather than a flat, unverifiable tag cloud.
+most of the projects below" — rather than a flat, unverifiable tag cloud.
 
-### Projects grid — all 18 repos
+### Projects grid — 21 repos
 
-All 18 side-project repos built/redesigned/fixed this session, shown as a
-**paginated grid, 5 columns × 2 rows (10 per page) on desktop**, with
-next/prev controls to page through the remaining 8. Each card shows:
+The 18 side-project repos built/redesigned/fixed this session, plus three
+more standalone public repos (European Nights, and two others found while
+auditing the GitHub account — Flight Path and SVG-to-3D Converter), shown
+as a **paginated grid, 5 columns × 2 rows (10 per page) on desktop**, with
+next/prev controls to page through the rest (3 pages: 10/10/1). Each card
+shows:
 
-- That project's actual custom SVG logo/favicon (copied from each repo's
-  `app/icon.svg` into this site's `public/icons/<slug>.svg` at build time —
-  not a generic placeholder, not fetched live from the other sites) as the
-  card's visual.
+- A logo/favicon for that project. For the 18 session repos, copy the
+  actual custom SVG logo from each repo's `app/icon.svg` into this site's
+  `public/icons/<slug>.svg` at build time — not a generic placeholder, not
+  fetched live from the other sites. European Nights, Flight Path, and
+  SVG-to-3D Converter don't have a matching bespoke mark to copy (they're
+  outside this session's redesign work), so each gets one small original
+  SVG icon authored directly in this repo, consistent in style with the
+  rest of the grid rather than left blank or mismatched.
 - Project name (display name, e.g. "SnapFrame", not the folder slug)
 - One tightened one-line description of what it does
-- Link to the live GitHub Pages site and the GitHub repo
+- Link to the live site and the GitHub repo (all three of the extra repos
+  are public, so both links apply to them too)
 
-The 18, in display order (curated for a strong opening page — most
+The 21, in display order (curated for a strong opening page — most
 resume-relevant/impressive first, novelty/utility later — exact order
 finalized during implementation, not fixed rigidly here):
 
-| Slug | Display name | One-liner |
-|---|---|---|
-| imagekit | ImageKit | Batch image resize, compress, convert, and rename entirely in the browser, with ZIP export. |
-| csv-lens | CSV Lens | Drop in a CSV and get an instant, searchable, sortable data grid with per-column stats. |
-| json-explorer | JSON Explorer | Paste JSON and explore it as a real structural diagram, not just indentation. |
-| markdown-studio | Markdown Studio | A distraction-light Markdown editor with live preview and word/read-time stats. |
-| regex-visualizer | Regex Visualizer | Test a regex against real text and see its structure as a railroad diagram. |
-| invoiceforge | InvoiceForge | Build and print a client-ready invoice, styled like a real printed document. |
-| resumeforge | ResumeForge | A local-first resume builder with a live, print-ready preview. |
-| tiny-kanban | Tiny Kanban | A lightweight, localStorage-backed kanban board for a single project. |
-| qr-studio | QR Studio | Generate and customize QR codes — colors, size, error correction — with PNG export. |
-| gradientlab | GradientLab | A visual CSS gradient builder with draggable stops and instant copyable CSS. |
-| palette-from-image | Palette from Image | Extract a usable color palette straight out of any uploaded image. |
-| contrastlab | ContrastLab | Check any two colors against WCAG contrast requirements at a glance. |
-| decisionlab | DecisionLab | Score and weigh options against your own criteria to make a harder decision easier. |
-| timezone-buddy | Timezone Buddy | Line up meeting times across timezones on one shared, scrubbable timeline. |
-| screensize | ScreenSize | Check your current viewport against real device breakpoints instantly. |
-| snapframe | SnapFrame | Frame a screenshot inside a real device/browser mockup for marketing or docs. |
-| focus-room | Focus Room | A calm Pomodoro-style focus timer with ambient sound and task tracking. |
-| readtime | ReadTime | Paste any text and get its reading time and readability scores instantly. |
+| Slug | Display name | One-liner | Live | Repo |
+|---|---|---|---|---|
+| imagekit | ImageKit | Batch image resize, compress, convert, and rename entirely in the browser, with ZIP export. | gamerdubz.github.io/imagekit | public |
+| csv-lens | CSV Lens | Drop in a CSV and get an instant, searchable, sortable data grid with per-column stats. | gamerdubz.github.io/csv-lens | public |
+| json-explorer | JSON Explorer | Paste JSON and explore it as a real structural diagram, not just indentation. | gamerdubz.github.io/json-explorer | public |
+| markdown-studio | Markdown Studio | A distraction-light Markdown editor with live preview and word/read-time stats. | gamerdubz.github.io/markdown-studio | public |
+| regex-visualizer | Regex Visualizer | Test a regex against real text and see its structure as a railroad diagram. | gamerdubz.github.io/regex-visualizer | public |
+| invoiceforge | InvoiceForge | Build and print a client-ready invoice, styled like a real printed document. | gamerdubz.github.io/invoiceforge | public |
+| resumeforge | ResumeForge | A local-first resume builder with a live, print-ready preview. | gamerdubz.github.io/resumeforge | public |
+| tiny-kanban | Tiny Kanban | A lightweight, localStorage-backed kanban board for a single project. | gamerdubz.github.io/tiny-kanban | public |
+| qr-studio | QR Studio | Generate and customize QR codes — colors, size, error correction — with PNG export. | gamerdubz.github.io/qr-studio | public |
+| gradientlab | GradientLab | A visual CSS gradient builder with draggable stops and instant copyable CSS. | gamerdubz.github.io/gradientlab | public |
+| palette-from-image | Palette from Image | Extract a usable color palette straight out of any uploaded image. | gamerdubz.github.io/palette-from-image | public |
+| contrastlab | ContrastLab | Check any two colors against WCAG contrast requirements at a glance. | gamerdubz.github.io/contrastlab | public |
+| decisionlab | DecisionLab | Score and weigh options against your own criteria to make a harder decision easier. | gamerdubz.github.io/decisionlab | public |
+| timezone-buddy | Timezone Buddy | Line up meeting times across timezones on one shared, scrubbable timeline. | gamerdubz.github.io/timezone-buddy | public |
+| screensize | ScreenSize | Check your current viewport against real device breakpoints instantly. | gamerdubz.github.io/screensize | public |
+| snapframe | SnapFrame | Frame a screenshot inside a real device/browser mockup for marketing or docs. | gamerdubz.github.io/snapframe | public |
+| focus-room | Focus Room | A calm Pomodoro-style focus timer with ambient sound and task tracking. | gamerdubz.github.io/focus-room | public |
+| readtime | ReadTime | Paste any text and get its reading time and readability scores instantly. | gamerdubz.github.io/readtime | public |
+| european-nights | European Nights | A solo-built browser game — ~3,900 lines of strict TypeScript running a seeded Poisson match-simulation engine across two-legged knockouts. | european-nights.vercel.app | private (no public repo) |
+| flight-path-app | Flight Path | A travel journey tracker that turns logged flights into a gamified 3D globe, virtual passport, and journey timeline. | flight-path-kappa.vercel.app | public |
+| svg-to-3d-converter | SVG to 3D Converter | Turns a flat SVG into an editable 3D model in the browser, built on Three.js. | gamerdubz.github.io/svg-to-3d-converter | public |
+
+Note: European Nights has no discoverable public GitHub repo (checked —
+`GamerDubz/european-nights` doesn't exist), so its card is live-link-only,
+same treatment as the flagship projects.
 
 ### Education
 
@@ -161,14 +176,17 @@ finalized during implementation, not fixed rigidly here):
 
 ## Data flow
 
-- All content (identity, flagship projects, experience, skills, the 18
+- All content (identity, flagship projects, experience, skills, the 21
   projects list, education) lives in typed TypeScript data files under
   `lib/` or `content/` — not hardcoded inline in JSX — so it's a single
   place to edit later without touching layout code.
-- Each of the 18 projects' `icon.svg` is copied into this repo's
+- Each of the 18 session repos' `icon.svg` is copied into this repo's
   `public/icons/` at authoring time (a one-time copy step during
-  implementation, not a runtime fetch), so the grid never depends on the
-  other 18 sites being up.
+  implementation, not a runtime fetch); the 3 extra repos (European
+  Nights, Flight Path, SVG-to-3D Converter) get a hand-authored icon
+  directly in this repo instead, since there's no matching source icon to
+  copy. Either way, the grid never depends on any of the other sites being
+  up at runtime.
 
 ## Testing / gates
 
@@ -180,11 +198,20 @@ finalized during implementation, not fixed rigidly here):
 
 ## Open items resolved during this brainstorm
 
-- European Nights: excluded from the site entirely, per explicit
-  instruction — not featured anywhere, not even as a passing mention.
+- European Nights: not a flagship project, but included in the projects
+  grid (corrected after an earlier draft of this spec wrongly excluded it
+  entirely).
 - Flagship links: Yana → yana.co.nz, DoseStreaks → dosestreaks.co.za,
   Qroma → https://www.qroma.digital/. All three are live-site-only (no
   public repo link).
 - Phone number: included, per explicit instruction.
 - Palette: light, but a distinct new palette/type system, not reused from
   any of the 18 apps.
+- Account audit turned up 2 more public repos beyond the 18 session
+  projects (Flight Path, SVG-to-3D Converter) — folded into the projects
+  grid alongside European Nights rather than silently dropped, since the
+  original ask was "based off all my GitHub repos." (Other private repos
+  found in the same audit — Yana/DoseStreaks-adjacent tooling repos,
+  CivBox, Clicker, `17-0` — are internal/admin tooling or unclear/archived
+  projects, not customer-facing shipped work, so they're deliberately left
+  out.)

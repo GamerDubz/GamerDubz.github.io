@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { Monogram } from "./monogram";
 import { identity } from "@/lib/content/identity";
 
 const NAV_LINKS = [
@@ -33,8 +32,7 @@ export function SiteHeader() {
           Skip to content
         </a>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="#top" className="flex items-center gap-2 font-serif-display text-lg font-medium text-(--color-ink)">
-            <Monogram className="h-8 w-8 text-(--color-ink)" />
+          <Link href="#top" className="font-serif-display text-lg font-medium text-(--color-ink)">
             {identity.name}
           </Link>
           <nav aria-label="Primary" className="hidden gap-6 text-sm font-medium text-(--color-ink-soft) md:flex">
@@ -92,9 +90,8 @@ export function SiteHeader() {
             <Link
               href="#top"
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2 font-serif-display text-base font-medium text-(--color-ink)"
+              className="font-serif-display text-base font-medium text-(--color-ink)"
             >
-              <Monogram className="h-7 w-7 text-(--color-ink)" />
               {identity.name}
             </Link>
             <button

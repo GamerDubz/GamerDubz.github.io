@@ -1,25 +1,23 @@
 import { skillGroups } from "@/lib/content/skills";
-import { SectionShell } from "./section-shell";
+import { Reveal } from "./reveal";
 
 export function SkillsSection() {
   return (
-    <SectionShell id="skills" title="Skills">
-      <dl className="divide-y divide-(--color-line)">
-        {skillGroups.map((group) => (
-          <div
-            key={group.title}
-            className="grid gap-2 py-7 first:pt-0 last:pb-0 md:grid-cols-[11rem_1fr] md:gap-8"
-          >
-            <dt className="text-lg font-semibold text-(--color-ink)">{group.title}</dt>
-            <dd>
-              <p className="text-base font-medium text-(--color-ink)">{group.skills}</p>
-              <p className="mt-2 max-w-[58ch] font-reading text-lg leading-relaxed text-(--color-ink-soft)">
-                {group.evidence}
-              </p>
-            </dd>
-          </div>
+    <section id="skills" className="mx-auto max-w-6xl px-6 py-20">
+      <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Skills</h2>
+      <div className="mt-10 grid gap-6 md:grid-cols-3">
+        {skillGroups.map((group, index) => (
+          <Reveal key={group.title} delay={index * 0.1} className="h-full">
+            <div className="h-full rounded-2xl border border-(--color-line) bg-(--color-surface) p-6 transition-transform duration-300 hover:-translate-y-1.5">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-(--color-accent)">
+                {group.title}
+              </h3>
+              <p className="mt-3 text-base text-(--color-ink)">{group.skills}</p>
+              <p className="mt-3 text-sm text-(--color-ink-faint)">{group.evidence}</p>
+            </div>
+          </Reveal>
         ))}
-      </dl>
-    </SectionShell>
+      </div>
+    </section>
   );
 }

@@ -6,7 +6,7 @@ import { projects } from "@/lib/content/projects";
 import { paginate } from "@/lib/pagination";
 import { ProjectCard } from "./project-card";
 import { PaginationControls } from "./pagination-controls";
-import { Reveal } from "./reveal";
+import { SectionShell } from "./section-shell";
 
 const PAGE_SIZE = 10;
 
@@ -17,14 +17,12 @@ export function ProjectsSection() {
   const pageTransition = { duration: shouldReduceMotion ? 0 : 0.3, ease: "easeOut" as const };
 
   return (
-    <section id="projects" className="mx-auto max-w-6xl px-6 py-20">
-      <Reveal>
-        <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">Projects</h2>
-        <p className="mt-2 max-w-2xl text-(--color-ink-soft)">
-          {projects.length} shipped side projects and experiments — each one a real, working app.
-        </p>
-      </Reveal>
-      <div className="relative mt-10 overflow-hidden py-2">
+    <SectionShell
+      id="projects"
+      title="Projects"
+      intro={`${projects.length} shipped side projects and experiments — each one a real, working app.`}
+    >
+      <div className="relative overflow-hidden">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentPage}
@@ -42,7 +40,7 @@ export function ProjectsSection() {
                 setPage((p) => Math.max(0, p - 1));
               }
             }}
-            className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
+            className="grid gap-x-10 md:grid-cols-2"
           >
             {pageItems.map((project) => (
               <ProjectCard key={project.slug} project={project} />
@@ -56,6 +54,6 @@ export function ProjectsSection() {
         onPrev={() => setPage((p) => Math.max(0, p - 1))}
         onNext={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
       />
-    </section>
+    </SectionShell>
   );
 }

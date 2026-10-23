@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Newsreader, Sora } from "next/font/google";
+import { Bricolage_Grotesque, Newsreader } from "next/font/google";
 import "./globals.css";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["400", "500", "600"],
+  variable: "--font-newsreader",
+  weight: ["400", "500"],
   style: ["normal", "italic"],
 });
 
-const sora = Sora({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-bricolage",
+  axes: ["opsz", "wdth"],
 });
 
 const SITE_TITLE = "Ubaid Desai — Full-Stack Developer";
@@ -41,7 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${sora.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${bricolage.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

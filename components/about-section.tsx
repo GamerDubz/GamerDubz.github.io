@@ -1,19 +1,19 @@
 import { about } from "@/lib/content/about";
-import { Reveal } from "./reveal";
+import { SectionShell } from "./section-shell";
 
 export function AboutSection() {
+  const [lead, ...rest] = about.paragraphs;
+
   return (
-    <section id="about" className="mx-auto max-w-6xl px-6 py-20">
-      <Reveal>
-        <h2 className="font-serif-display text-3xl font-medium text-(--color-ink)">
-          {about.heading}
-        </h2>
-        <div className="mt-6 max-w-2xl space-y-4 text-lg leading-relaxed text-(--color-ink-soft)">
-          {about.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
-      </Reveal>
-    </section>
+    <SectionShell id="about" title="About">
+      <p className="max-w-[34ch] font-reading text-3xl leading-snug text-(--color-ink) md:text-4xl">
+        {lead}
+      </p>
+      <div className="mt-8 max-w-[62ch] space-y-4 font-reading text-lg leading-[1.7] text-(--color-ink-soft)">
+        {rest.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+    </SectionShell>
   );
 }

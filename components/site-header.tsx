@@ -27,24 +27,28 @@ export function SiteHeader() {
       <header className="sticky top-0 z-20 border-b border-(--color-line) bg-(--color-surface)/95 backdrop-blur">
         <a
           href="#top"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-(--color-ink) focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-(--color-bg)"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-(--color-ink) focus:px-4 focus:py-2 focus:text-base focus:font-semibold focus:text-(--color-bg)"
         >
           Skip to content
         </a>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="#top" className="font-serif-display text-lg font-medium text-(--color-ink)">
+          <Link href="#top" className="inline-flex min-h-11 items-center text-lg font-semibold tracking-tight text-(--color-ink)">
             {identity.name}
           </Link>
-          <nav aria-label="Primary" className="hidden gap-6 text-sm font-medium text-(--color-ink-soft) md:flex">
+          <nav aria-label="Primary" className="hidden gap-6 text-base font-medium text-(--color-ink-soft) md:flex">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className="min-h-11 py-2 hover:text-(--color-ink)">
+              <a
+                key={link.href}
+                href={link.href}
+                className="flex min-h-11 items-center transition-colors duration-200 hover:text-(--color-accent)"
+              >
                 {link.label}
               </a>
             ))}
           </nav>
           <a
             href="#contact"
-            className="hidden min-h-11 items-center rounded-full bg-(--color-ink) px-4 text-sm font-semibold text-(--color-bg) transition-[opacity,transform] duration-200 hover:-translate-y-0.5 hover:opacity-90 md:inline-flex"
+            className="hidden min-h-11 items-center rounded-md bg-(--color-ink) px-4 text-base font-semibold text-(--color-bg) transition-colors duration-200 hover:bg-(--color-accent) active:bg-(--color-ink) md:inline-flex"
           >
             Let&apos;s connect
           </a>
@@ -54,7 +58,7 @@ export function SiteHeader() {
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label="Open menu"
-            className="flex h-11 w-11 items-center justify-center rounded-full text-(--color-ink) md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-md text-(--color-ink) md:hidden"
           >
             <Menu size={20} aria-hidden="true" />
           </button>
@@ -90,7 +94,7 @@ export function SiteHeader() {
             <Link
               href="#top"
               onClick={() => setMenuOpen(false)}
-              className="font-serif-display text-base font-medium text-(--color-ink)"
+              className="inline-flex min-h-11 items-center text-base font-semibold tracking-tight text-(--color-ink)"
             >
               {identity.name}
             </Link>
@@ -98,7 +102,7 @@ export function SiteHeader() {
               type="button"
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
-              className="flex h-11 w-11 items-center justify-center rounded-full text-(--color-ink)"
+              className="flex h-11 w-11 items-center justify-center rounded-md text-(--color-ink)"
             >
               <X size={20} aria-hidden="true" />
             </button>
@@ -109,7 +113,7 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="flex min-h-11 items-center hover:text-(--color-ink)"
+                className="flex min-h-11 items-center hover:text-(--color-accent)"
               >
                 {link.label}
               </a>
@@ -118,7 +122,7 @@ export function SiteHeader() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="inline-flex min-h-11 items-center justify-center rounded-full bg-(--color-ink) px-4 text-sm font-semibold text-(--color-bg)"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-(--color-ink) px-4 text-base font-semibold text-(--color-bg) hover:bg-(--color-accent)"
           >
             Let&apos;s connect
           </a>

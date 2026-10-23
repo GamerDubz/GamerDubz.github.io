@@ -15,42 +15,47 @@ const FALLBACK_ICONS: Record<string, React.ComponentType<{ className?: string }>
   halaq: HalaqIcon,
 };
 
+const LINK_CLASS =
+  "inline-flex min-h-11 items-center gap-1 underline decoration-(--color-line) decoration-2 underline-offset-[6px] transition-colors duration-200 hover:text-(--color-accent) hover:decoration-(--color-accent)";
+
 export function ProjectCard({ project }: { project: Project }) {
   const FallbackIcon = FALLBACK_ICONS[project.slug];
 
   return (
-    <article className="flex h-full flex-col rounded-xl border border-(--color-line) bg-(--color-surface) p-5 transition-transform duration-300 hover:-translate-y-1">
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--color-bg) text-(--color-ink)">
+    <article className="flex gap-4 border-t border-(--color-line) py-5">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-(--color-line) bg-(--color-surface) text-(--color-ink)">
         {project.iconSrc ? (
           <Image src={project.iconSrc} alt="" width={22} height={22} aria-hidden="true" />
         ) : FallbackIcon ? (
           <FallbackIcon className="h-[22px] w-[22px]" />
         ) : null}
       </div>
-      <h3 className="mt-4 text-base font-semibold text-(--color-ink)">{project.name}</h3>
-      <p className="mt-1.5 flex-1 text-sm leading-relaxed text-(--color-ink-soft)">
-        {project.description}
-      </p>
-      <div className="mt-4 flex items-center gap-4 text-sm font-medium">
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center gap-1 text-(--color-ink) hover:text-(--color-accent)"
-        >
-          Live <ArrowUpRight size={14} aria-hidden="true" />
-        </a>
-        {project.repoUrl && (
+      <div className="flex min-w-0 flex-1 flex-col">
+        <h3 className="text-lg font-semibold text-(--color-ink)">{project.name}</h3>
+        <p className="mt-1 flex-1 font-reading text-base leading-relaxed text-(--color-ink-soft)">
+          {project.description}
+        </p>
+        <div className="mt-2 flex items-center gap-5 text-base font-medium">
           <a
-            href={project.repoUrl}
+            href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center gap-1 text-(--color-ink-soft) hover:text-(--color-accent)"
-            aria-label={`${project.name} source code on GitHub`}
+            className={`${LINK_CLASS} text-(--color-ink)`}
           >
-            <Code size={14} aria-hidden="true" /> Code
+            Live <ArrowUpRight size={14} aria-hidden="true" />
           </a>
-        )}
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${LINK_CLASS} text-(--color-ink-soft)`}
+              aria-label={`${project.name} source code on GitHub`}
+            >
+              <Code size={14} aria-hidden="true" /> Code
+            </a>
+          )}
+        </div>
       </div>
     </article>
   );

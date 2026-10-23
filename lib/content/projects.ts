@@ -15,7 +15,7 @@ export const projects: Project[] = [
       "A business website for a Durban sports massage and Hijama cupping therapy practice, designed and built end to end for a real client.",
     liveUrl: "https://www.thefixsir.co.za/",
     repoUrl: null,
-    iconSrc: null,
+    iconSrc: "/icons/thefixsir.png",
   },
   {
     slug: "imagekit",
@@ -184,7 +184,7 @@ export const projects: Project[] = [
       "A travel journey tracker that turns logged flights into a gamified 3D globe, virtual passport, and journey timeline.",
     liveUrl: "https://flight-path-kappa.vercel.app",
     repoUrl: null,
-    iconSrc: null,
+    iconSrc: "/icons/flight-path-app.png",
   },
   {
     slug: "svg-to-3d-converter",
@@ -201,6 +201,6 @@ export const projects: Project[] = [
       "A Shariah-compliant stock screener that filters investments against Islamic finance principles for Muslim investors.",
     liveUrl: "https://halaq.vercel.app/",
     repoUrl: null,
-    iconSrc: null,
+    iconSrc: "/icons/halaq.svg",
   },
 ];

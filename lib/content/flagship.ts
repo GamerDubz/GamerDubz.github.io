@@ -5,6 +5,7 @@ export type FlagshipProject = {
   description: string;
   liveUrl: string;
   liveLabel: string;
+  iconSrc: string;
 };
 
 export const flagshipProjects: FlagshipProject[] = [
@@ -16,6 +17,7 @@ export const flagshipProjects: FlagshipProject[] = [
       "A privacy-first medication-adherence app for patients in New Zealand, shipped to native iOS and Android. Built with Next.js, TypeScript, and Supabase, on an offline-first sync layer with row-level-security enforced privacy, behind a 600+ page clinical library, a 449-medicine database, and a companion pharmacy dashboard.",
     liveUrl: "https://yana.co.nz",
     liveLabel: "yana.co.nz",
+    iconSrc: "/icons/yana.svg",
   },
   {
     name: "DoseStreaks",
@@ -25,6 +27,7 @@ export const flagshipProjects: FlagshipProject[] = [
       "A local-first health companion PWA for South African patients, shipped to native Android. Built with Next.js, TypeScript, Zustand, and Supabase, with on-device OCR for label scanning and SA-guideline vitals tracking — full CI (lint, types, tests, build) runs on every push and PR.",
     liveUrl: "https://dosestreaks.co.za",
     liveLabel: "dosestreaks.co.za",
+    iconSrc: "/icons/dosestreaks.svg",
   },
   {
     name: "Qroma",
@@ -34,5 +37,6 @@ export const flagshipProjects: FlagshipProject[] = [
       "A digital agency I founded and run, delivering web development, digital marketing, and business automation for clients — directing SEO/GEO strategy and AI-assisted creative production for campaigns end to end.",
     liveUrl: "https://www.qroma.digital/",
     liveLabel: "qroma.digital",
+    iconSrc: "/icons/qroma.png",
   },
 ];

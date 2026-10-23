@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { identity } from "./content/identity";
 import { experience } from "./content/experience";
@@ -5,6 +7,11 @@ import { skillGroups } from "./content/skills";
 import { education } from "./content/education";
 import { projects } from "./content/projects";
 import { about } from "./content/about";
+import { flagshipProjects } from "./content/flagship";
+
+function publicFileExists(src: string) {
+  return existsSync(join(process.cwd(), "public", src));
+}
 
 describe("identity", () => {
   it("has every required field non-empty", () => {
@@ -72,10 +79,22 @@ describe("projects", () => {
     }
   });
 
-  it("has an iconSrc of null only for the 5 projects without a copied icon", () => {
+  it("has an iconSrc of null only for the 2 projects with no favicon in their repo or live site", () => {
     const noIcon = projects.filter((p) => p.iconSrc === null).map((p) => p.slug);
-    expect(new Set(noIcon)).toEqual(
-      new Set(["thefixsir", "european-nights", "flight-path-app", "svg-to-3d-converter", "halaq"])
-    );
+    expect(new Set(noIcon)).toEqual(new Set(["european-nights", "svg-to-3d-converter"]));
+  });
+
+  it("points every iconSrc at a file that exists in public/", () => {
+    for (const project of projects) {
+      if (project.iconSrc) expect(publicFileExists(project.iconSrc), project.slug).toBe(true);
+    }
+  });
+});
+
+describe("flagshipProjects", () => {
+  it("points every iconSrc at a file that exists in public/", () => {
+    for (const project of flagshipProjects) {
+      expect(publicFileExists(project.iconSrc), project.name).toBe(true);
+    }
   });
 });

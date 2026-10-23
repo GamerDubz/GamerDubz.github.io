@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowUpRight, Code } from "lucide-react";
 import type { Project } from "@/lib/content/projects";
+import { withBasePath } from "@/lib/base-path";
 import { EuropeanNightsIcon } from "./project-icons/european-nights-icon";
 import { SvgTo3dIcon } from "./project-icons/svg-to-3d-icon";
 
@@ -16,7 +17,7 @@ export function ProjectCard({ project }: { project: Project }) {
     <article className="flex h-full flex-col rounded-xl border border-(--color-line) bg-(--color-surface) p-5 transition-transform duration-300 hover:-translate-y-1">
       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--color-bg) text-(--color-ink)">
         {project.iconSrc ? (
-          <Image src={project.iconSrc} alt="" width={22} height={22} aria-hidden="true" />
+          <Image src={withBasePath(project.iconSrc)} alt="" width={22} height={22} aria-hidden="true" />
         ) : FallbackIcon ? (
           <FallbackIcon className="h-[22px] w-[22px]" />
         ) : null}

@@ -1,5 +1,6 @@
 "use client";
 
+import { withBasePath } from "@/lib/base-path";
 import { useSyncExternalStore } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { identity } from "@/lib/content/identity";
@@ -50,7 +51,7 @@ function HeroButtons() {
         Email me
       </a>
       <a
-        href={identity.resumeHref}
+        href={withBasePath(identity.resumeHref)}
         download
         className="inline-flex min-h-11 items-center rounded-full border border-(--color-line) px-6 text-sm font-semibold text-(--color-ink) transition-transform duration-200 hover:-translate-y-0.5"
       >

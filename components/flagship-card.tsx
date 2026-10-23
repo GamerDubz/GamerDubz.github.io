@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { FlagshipProject } from "@/lib/content/flagship";
+import { withBasePath } from "@/lib/base-path";
 
 export function FlagshipCard({ project }: { project: FlagshipProject }) {
   return (
@@ -8,7 +9,7 @@ export function FlagshipCard({ project }: { project: FlagshipProject }) {
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-(--color-bg)">
-            <Image src={project.iconSrc} alt="" width={28} height={28} aria-hidden="true" />
+            <Image src={withBasePath(project.iconSrc)} alt="" width={28} height={28} aria-hidden="true" />
           </span>
           <h3 className="font-serif-display text-2xl font-medium text-(--color-ink)">{project.name}</h3>
         </div>

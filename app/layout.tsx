@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Newsreader, Sora } from "next/font/google";
+import { BASE_PATH } from "@/lib/base-path";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -20,13 +21,13 @@ const SITE_DESCRIPTION =
   "Full-stack developer building production software end to end — privacy-first health apps, a browser game with a custom simulation engine, and a run agency.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gamerdubz.github.io"),
+  metadataBase: new URL(`https://gamerdubz.github.io${BASE_PATH}/`),
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    url: "https://gamerdubz.github.io",
+    url: `https://gamerdubz.github.io${BASE_PATH}/`,
     siteName: "Ubaid Desai",
     type: "website",
   },
